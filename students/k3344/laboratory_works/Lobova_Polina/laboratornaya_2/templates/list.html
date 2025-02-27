@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Список конференций</title>
+        <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdad91;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1, h2 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #ffc7b2;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #c1530c;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #c1530c;
+            color: white;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #c1530c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Конференции</h1>
+    <ul>
+        {% for conference in conferences %}
+            <li>{{ conference.title }} - {{ conference.venue }} ({{ conference.start_date }} - {{ conference.end_date }})</li>
+            <a href="{% url 'add_review' conference.id %}">Добавить отзыв</a>
+        {% endfor %}
+    </ul>
+
+    <h2>Список участников</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Конференция</th>
+                <th>Участник</th>
+                <th>Роль</th>
+                <th>Презентация</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in registrations_data %}
+                <tr>
+                    <td>{{ data.registration.conference.title }}</td>
+                    <td>{{ data.registration.user.username }}</td>
+                    <td>
+                        {% if data.registration.is_author %}
+                            Автор
+                        {% else %}
+                            Участник
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if data.presentation %}
+                            {{ data.presentation.title }}
+                        {% else %}
+                            Нет презентации
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'index' %}">Главная</a>
+</body>
+</html>

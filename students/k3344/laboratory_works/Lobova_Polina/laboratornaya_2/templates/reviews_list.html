@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Отзывы конференции {{ conference.title }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #fdad91;
+            padding: 20px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #ffc7b2;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+        }
+
+        a {
+            color: #333;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #c1530c;
+        }
+    </style>
+</head>
+<body>
+    <h1>Отзывы конференции {{ conference.title }}</h1>
+    <ul>
+        {% for review in reviews %}
+        <li>
+            <strong>{{ review.author.username }}</strong> ({{ review.comment_date }}):
+            Оценка: {{ review.rating }}<br>
+            {{ review.text }}
+        </li>
+        {% empty %}
+        <li>Отзывов пока нет.</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'list_conferences' %}">Конференции</a>
+</body>
+</html>
